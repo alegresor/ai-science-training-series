@@ -219,7 +219,7 @@ def training_step(network, optimizer, images, labels):
 
     return loss, accuracy
 
-def train_epoch(i_epoch, step_in_epoch, train_ds, val_ds, network, optimizer, BATCH_SIZE, checkpoint):
+def train_epoch(i_epoch, step_in_epoch, train_ds, val_ds, network, optimizer, BATCH_SIZE, checkpoint, outfile):
     # Here is our training loop!
 
     steps_per_epoch = int(1281167 / BATCH_SIZE)
@@ -234,9 +234,9 @@ def train_epoch(i_epoch, step_in_epoch, train_ds, val_ds, network, optimizer, BA
         loss, acc = training_step(network, optimizer, train_images, train_labels)
         end = time.time()
         images_per_second = BATCH_SIZE / (end - start)
+        outfile.write('%.3f,%.3f\n'%(loss,acc))
         print(f"Finished step {step_in_epoch.numpy()} of {steps_per_epoch} in epoch {i_epoch.numpy()},loss={loss:.3f}, acc={acc:.3f} ({images_per_second:.3f} img/s).")
         start = time.time()
-
     # Save the network after every epoch:
     checkpoint.save("resnet34/model")
 
@@ -300,7 +300,7 @@ def main():
     # Here's some configuration:
     #########################################################################
     BATCH_SIZE = 256
-    N_EPOCHS = 10
+    N_EPOCHS = 1
 
     train_ds, val_ds = prepare_data_loader(BATCH_SIZE)
 
@@ -339,10 +339,15 @@ def main():
     if latest_checkpoint:
         checkpoint.restore(latest_checkpoint)
 
+    outfile = open('output.txt','w',buffering=1)
+    outfile.write('loss,accuracy\n')
+
     while epoch < N_EPOCHS:
-        train_epoch(epoch, step_in_epoch, train_ds, val_ds, network, optimizer, BATCH_SIZE, checkpoint)
+        train_epoch(epoch, step_in_epoch, train_ds, val_ds, network, optimizer, BATCH_SIZE, checkpoint, outfile)
         epoch.assign_add(1)
         step_in_epoch.assign(0)
+
+    outfile.close()
 
 if __name__ == "__main__":
     main()
