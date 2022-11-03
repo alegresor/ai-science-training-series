@@ -1,5 +1,3 @@
-ags.md
-
 # cobalt logs
 *.cobaltlog
 *.output
@@ -81,3 +79,8 @@ scratch/
 
 # Misc
 .DS_Store
+
+# alegresor
+ags.md
+!07_largeScaleTraining/src/ai4sci/logs/2022-11-03-094753-thetagpu18_ngpu8_ncpu256.log
+!07_largeScaleTraining/src/ai4sci/main-bs-512.log
