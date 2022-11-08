@@ -1,0 +1,7 @@
+# Potential AI Project
+
+Aleksei Sorokin [asorokin@hawk.iit.edu](mailto:asorokin@hawk.iit.edu)
+
+I think it would be both interesting and helpful to build an AI tool for projecting financial cost of a trip / vacation. For example, how much will my trip to Rome, Italy cost? What if you additionally know I want to take a 10 day trip? The model would ideally provide an initial prediction with a large uncertainty. Upon knowing the length of the trip the model should provide a refined estimate with lower uncertainty. As more details are provided the model should provide better estimates with less uncertainty. 
+
+For this project, I would need to find open-source expense report data. Attributes may include the trip's country (categorical), length (continuous), hotel quality (continuous), etc. with the resulting target being the total cost of the trip. A large amount of data would be required to cover a wide range of countries, trip lengths, hotel qualities, etc. For modeling, I would like to use Gaussian Process regression since predictions come with uncertainty estimates which would be especially valuable in this context. Other regression models could also be applicable, but uncertainty quantification would be essential to this project to provide users a range of potential costs that gets refined as more trip info is input. 
